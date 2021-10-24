@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const contactsPath = path.join(__dirname, "db", "contacts.json");
 
 async function listContacts() {
-    const data = await fs.readFile(contactsPath, 'utf-8');
+    const data = await fs.readFile(contactsPath, "utf-8");
     const contacts = JSON.parse(data);
     if (!contacts) {
         console.log("You don`t have any contact");
@@ -18,7 +18,7 @@ async function listContacts() {
 
 async function getContactById(contactId) {
     const contacts = await listContacts();
-    const result = contacts.find(item => item.id === contactId);
+    const result = contacts.find(contact => contact.id === parseInt(contactId));
     if (!result) {
         console.log(`Contact with ID "${contactId}" not found!`);
         return null;
@@ -30,17 +30,18 @@ async function getContactById(contactId) {
 
 async function removeContact(contactId) {
     const contacts = await listContacts();
-    const index = contacts.findIndex(item => item.id === contactId);
+    const index = contacts.findIndex(contact => contact.id === parseInt(contactId));
     if (index === -1) {
         console.log("This contact isn't in contacts")
         return null;
     }
     const removeContact = contacts.splice(index, 1);
+    console.log('Contact removed from contacts');
+    console.table(removeContact);
     const contactsString = JSON.stringify(contacts);
     await fs.writeFile(contactsPath, contactsString);
-    console.log(`${removeContact.name} removed from contacts`);
-    console.table(contacts);
-    console.table(removeContact);
+    console.log('Update contacts:')
+    console.table(contacts); 
     return removeContact;
 }
 
@@ -51,6 +52,7 @@ async function addContact(name, email, phone) {
     const contactsString = JSON.stringify(contacts);
     await fs.writeFile(contactsPath, contactsString);
     console.log('Contacts added successfully! New lists of contacts: ');
+    console.log('Update contacts:')
     console.table(contacts);
     return newContact;
 }
