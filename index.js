@@ -1,7 +1,41 @@
+const { Command } = require('commander');
+
 const contacts = require("./db/contacts.json");
 const { listContacts, getContactById, removeContact, addContact } = require("./contacts");
 
-// console.log(listContacts());
-// console.log(getContactById(5));
-//console.log(removeContact(8));
-//console.log(addContact("Inna", ))
+const program = new Command();
+program
+  .option('-a, --action <type>', 'choose action')
+  .option('-i, --id <type>', 'user id')
+  .option('-n, --name <type>', 'user name')
+  .option('-e, --email <type>', 'user email')
+  .option('-p, --phone <type>', 'user phone');
+
+program.parse(process.argv);
+
+const argv = program.opts();
+
+async function invokeAction({ action, id, name, email, phone }) {
+  switch (action) {
+    case 'list':
+      return await listContacts();
+      break;
+
+    case 'get':
+      return await getContactById(id);
+      break;
+
+    case 'add':
+      return await addContact(name, email, phone);
+      break;
+
+    case 'remove':
+          return await removeContact(id);
+      break;
+
+    default:
+      console.warn('\x1B[31m Unknown action type!');
+  }
+}
+id = 5;
+invokeAction({ action: 'get', id});
