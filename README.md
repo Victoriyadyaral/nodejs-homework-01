@@ -10,4 +10,4 @@ Cкриншоты выполненного дз:
 
 4. node index.js --action remove --id=3 ------ http://joxi.ru/DrldeNbcGlnalr
 
-Скриншоты выполнения команд monosnap: https://monosnap.com/list/61750b988a2e601e5ccccd02
+Скриншоты выполнения команд на сервисе хранения картинок Monosnap: https://monosnap.com/list/61750b988a2e601e5ccccd02
